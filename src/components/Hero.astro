@@ -1,0 +1,55 @@
+---
+import { site } from "../data/site";
+import DotField from "./DotField.astro";
+
+const now = new Date();
+const timeLabel = now.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+---
+
+<section class="relative overflow-hidden border-b hairline">
+  <DotField density={0.035} />
+  <div
+    class="pointer-events-none absolute inset-0 bg-gradient-to-b from-bg/0 via-bg/40 to-bg"
+  >
+  </div>
+
+  <div class="relative mx-auto flex max-w-5xl flex-col px-6 pb-28 pt-16 sm:pt-24">
+    <div class="mb-16 flex items-start justify-between font-mono text-[11px] uppercase tracking-widest text-ink-faint">
+      <span>// subject: {site.handle}</span>
+      <span class="text-right">
+        status: <span class="text-cold">active</span><br />
+        <span class="hidden sm:inline">as of {timeLabel}</span>
+      </span>
+    </div>
+
+    <h1 class="font-display text-[4.5rem] font-extrabold leading-[0.85] tracking-tight text-ink sm:text-[7rem]">
+      {site.handle}
+    </h1>
+    <p class="mt-4 font-display text-2xl font-semibold text-signal sm:text-3xl">
+      {site.tagline}
+    </p>
+
+    <p class="mt-8 max-w-xl text-balance text-base leading-relaxed text-ink-dim sm:text-lg">
+      {site.positioning}
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center gap-4">
+      <a
+        href="#work"
+        class="rounded bg-signal px-5 py-2.5 font-mono text-sm font-medium text-bg transition-transform hover:-translate-y-0.5"
+      >
+        View case files
+      </a>
+      <a
+        href="#contact"
+        class="field-label rounded border border-line px-5 py-2.5 text-ink-dim transition-colors hover:border-cold hover:text-cold"
+      >
+        Get in touch
+      </a>
+    </div>
+  </div>
+</section>

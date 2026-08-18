@@ -1,0 +1,85 @@
+---
+interface Props {
+  class?: string;
+  density?: number;
+}
+const { class: className = "", density = 0.045 } = Astro.props;
+const id = `dotfield-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div id={id} class={`noise-field-canvas ${className}`} data-density={density} aria-hidden="true">
+</div>
+
+<style>
+  .noise-field-canvas {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .noise-field-canvas :global(.dot) {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 9999px;
+    background: var(--color-line);
+    transform: translate(-50%, -50%);
+  }
+
+  .noise-field-canvas :global(.dot.lit) {
+    background: var(--color-signal);
+    animation: dot-pulse 4.5s ease-in-out infinite;
+  }
+
+  @keyframes dot-pulse {
+    0%,
+    100% {
+      opacity: 0.15;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .noise-field-canvas :global(.dot.lit) {
+      animation: none;
+      opacity: 0.65;
+    }
+  }
+</style>
+
+<script define:vars={{ id, density }}>
+  (() => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const cell = 26;
+    const build = () => {
+      el.innerHTML = "";
+      const cols = Math.ceil(el.clientWidth / cell);
+      const rows = Math.ceil(el.clientHeight / cell);
+      const frag = document.createDocumentFragment();
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const lit = Math.random() < density;
+          const dot = document.createElement("span");
+          dot.className = lit ? "dot lit" : "dot";
+          dot.style.left = `${x * cell + cell / 2}px`;
+          dot.style.top = `${y * cell + cell / 2}px`;
+          if (lit) {
+            dot.style.animationDelay = `${(Math.random() * 4.5).toFixed(2)}s`;
+          }
+          frag.appendChild(dot);
+        }
+      }
+      el.appendChild(frag);
+    };
+    build();
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(build, 200);
+    });
+  })();
+</script>

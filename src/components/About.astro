@@ -1,0 +1,32 @@
+---
+import { site } from "../data/site";
+---
+
+<section id="about" class="border-b hairline">
+  <div class="mx-auto max-w-5xl px-6 py-20">
+    <p class="field-label mb-8 text-signal">// operator profile</p>
+
+    <div class="grid gap-12 lg:grid-cols-[1.1fr_1fr]">
+      <div>
+        <p class="text-balance text-xl leading-relaxed text-ink sm:text-2xl">
+          {site.bio}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-x-8 gap-y-8">
+        {
+          site.capabilities.map((cap) => (
+            <div class="border-l border-line pl-4">
+              <p class="field-label mb-2 text-cold">{cap.label}</p>
+              <ul class="space-y-1 text-sm text-ink-dim">
+                {cap.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

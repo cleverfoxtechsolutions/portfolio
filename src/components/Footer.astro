@@ -1,0 +1,52 @@
+---
+import { site } from "../data/site";
+import { url } from "../lib/url";
+---
+
+<footer id="contact" class="relative overflow-hidden">
+  <div class="mx-auto max-w-5xl px-6 py-24">
+    <p class="field-label mb-6 text-signal">// how to reach me</p>
+    <h2 class="max-w-2xl font-display text-4xl font-bold leading-[0.95] text-ink sm:text-5xl">
+      Open to conversations about offense, defense, or the infrastructure
+      underneath both.
+    </h2>
+
+    <div class="mt-10 flex flex-wrap gap-4">
+      <a
+        href={`mailto:${site.email}`}
+        class="rounded bg-signal px-5 py-2.5 font-mono text-sm font-medium text-bg transition-transform hover:-translate-y-0.5"
+      >
+        {site.email}
+      </a>
+      <a
+        href={site.github}
+        target="_blank"
+        rel="noreferrer"
+        class="field-label rounded border border-line px-5 py-2.5 text-ink-dim transition-colors hover:border-cold hover:text-cold"
+      >
+        GitHub
+      </a>
+      <a
+        href={site.linkedin}
+        target="_blank"
+        rel="noreferrer"
+        class="field-label rounded border border-line px-5 py-2.5 text-ink-dim transition-colors hover:border-cold hover:text-cold"
+      >
+        LinkedIn
+      </a>
+      <a
+        href={url(site.resumeHref)}
+        class="field-label rounded border border-line px-5 py-2.5 text-ink-dim transition-colors hover:border-cold hover:text-cold"
+      >
+        Resume
+      </a>
+    </div>
+  </div>
+
+  <div class="border-t hairline">
+    <div class="mx-auto flex max-w-5xl flex-col gap-2 px-6 py-6 font-mono text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between">
+      <span>{site.handle} — built with Astro, deployed static.</span>
+      <span>// end of file</span>
+    </div>
+  </div>
+</footer>

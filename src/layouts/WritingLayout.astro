@@ -1,0 +1,56 @@
+---
+import Layout from "./Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { url } from "../lib/url";
+
+interface Props {
+  title: string;
+  date: string;
+  summary: string;
+}
+
+const { title, date, summary } = Astro.props;
+const formatted = new Date(`${date}T00:00:00`).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<Layout title={`${title} — Writing`} description={summary}>
+  <Header />
+  <main>
+    <article class="border-b hairline">
+      <div class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+        <a
+          href={`${url("/")}#writing`}
+          class="field-label mb-10 inline-flex items-center gap-1.5 text-ink-dim transition-colors hover:text-signal"
+        >
+          ← Back to writing
+        </a>
+
+        <p class="field-label mb-3 text-cold">{formatted}</p>
+        <h1 class="font-display text-4xl font-bold leading-[0.95] text-ink sm:text-5xl">
+          {title}
+        </h1>
+        <p class="mt-4 max-w-xl text-lg text-ink-dim">{summary}</p>
+
+        <div
+          class="prose prose-invert mt-12 max-w-none
+            prose-headings:font-display prose-headings:font-bold prose-headings:text-ink
+            prose-h2:mt-12 prose-h2:text-2xl
+            prose-p:leading-relaxed prose-p:text-ink-dim
+            prose-strong:text-ink
+            prose-li:text-ink-dim
+            prose-a:text-cold prose-a:no-underline hover:prose-a:text-signal
+            prose-code:font-mono prose-code:text-sm prose-code:text-signal
+            prose-hr:border-line"
+        >
+          <slot />
+        </div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,59 @@
+---
+import { url } from "../lib/url";
+
+interface Props {
+  slug: string;
+  title: string;
+  subject: string;
+  vector: string;
+  stack: string[];
+  status: string;
+  summary: string;
+  index: number;
+}
+
+const { slug, title, subject, vector, stack, status, summary, index } = Astro.props;
+
+const statusColor = status.toLowerCase().includes("active")
+  ? "text-signal"
+  : "text-cold";
+---
+
+<a
+  href={url(`/projects/${slug}/`)}
+  class="group block border-b hairline px-6 py-10 transition-colors hover:bg-panel sm:px-8"
+>
+  <div class="mx-auto grid max-w-4xl gap-6 lg:grid-cols-[220px_1fr]">
+    <div class="space-y-3">
+      <p class="font-mono text-xs text-ink-faint">{String(index).padStart(2, "0")}</p>
+      <dl class="space-y-2.5">
+        <div>
+          <dt class="field-label">Vector</dt>
+          <dd class="text-sm text-ink-dim">{vector}</dd>
+        </div>
+        <div>
+          <dt class="field-label">Stack</dt>
+          <dd class="text-sm text-ink-dim">{stack.join(" · ")}</dd>
+        </div>
+        <div>
+          <dt class="field-label">Status</dt>
+          <dd class={`text-sm ${statusColor}`}>{status}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div>
+      <h3 class="font-display text-3xl font-bold text-ink transition-colors group-hover:text-signal sm:text-4xl">
+        {title}
+      </h3>
+      <p class="mt-2 font-mono text-xs uppercase tracking-wide text-ink-faint">
+        {subject}
+      </p>
+      <p class="mt-4 max-w-2xl text-ink-dim">{summary}</p>
+      <span class="mt-5 inline-flex items-center gap-1.5 font-mono text-sm text-cold">
+        Read full case file
+        <span class="transition-transform group-hover:translate-x-1">→</span>
+      </span>
+    </div>
+  </div>
+</a>

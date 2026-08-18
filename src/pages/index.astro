@@ -1,0 +1,45 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import CaseFile from "../components/CaseFile.astro";
+import Writing from "../components/Writing.astro";
+import Footer from "../components/Footer.astro";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<Layout>
+  <Header />
+  <main>
+    <Hero />
+    <About />
+
+    <section id="work" class="border-b hairline">
+      <div class="mx-auto max-w-5xl px-6 pt-20">
+        <p class="field-label px-0 pb-8 sm:px-2">// case files</p>
+      </div>
+      {
+        projects.map((project, i) => (
+          <CaseFile
+            slug={project.id}
+            title={project.data.title}
+            subject={project.data.subject}
+            vector={project.data.vector}
+            stack={project.data.stack}
+            status={project.data.status}
+            summary={project.data.summary}
+            index={i + 1}
+          />
+        ))
+      }
+    </section>
+
+    <Writing />
+  </main>
+  <Footer />
+</Layout>

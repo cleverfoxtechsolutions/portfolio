@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+import { url } from "../lib/url";
+
+const posts = (await getCollection("writing")).sort(
+  (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+);
+---
+
+{
+  posts.length > 0 && (
+    <section id="writing" class="border-b hairline">
+      <div class="mx-auto max-w-5xl px-6 py-20">
+        <p class="field-label mb-8 text-signal">// writing</p>
+
+        <div
+          class={`grid gap-px overflow-hidden rounded border border-line bg-line ${posts.length > 1 ? "sm:grid-cols-2" : "sm:max-w-md"}`}
+        >
+          {posts.map((post) => {
+            const formatted = new Date(`${post.data.date}T00:00:00`).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            });
+            return (
+              <a
+                href={url(`/writing/${post.id}/`)}
+                class="group flex flex-col justify-between bg-bg p-6 transition-colors hover:bg-panel"
+              >
+                <div>
+                  <p class="field-label mb-3 text-cold">{formatted}</p>
+                  <h3 class="font-display text-2xl font-bold text-ink transition-colors group-hover:text-signal">
+                    {post.data.title}
+                  </h3>
+                  <p class="mt-2 text-sm text-ink-dim">{post.data.summary}</p>
+                </div>
+                <span class="mt-5 inline-flex items-center gap-1.5 font-mono text-sm text-cold">
+                  Read
+                  <span class="transition-transform group-hover:translate-x-1">→</span>
+                </span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
